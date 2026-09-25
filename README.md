@@ -7,5 +7,22 @@
     <br><br>
 </h1>
 
-# POSIX and DOS Computers mod
-Minecraft mod that adds Disk Operating System (DOS) Computers with BASIC programming language.
+# POSIX and DOS Computers mod Addon Template
+
+Addon template for Minecraft mod "POSIX and DOS Computers".
+
+This repository is intended as a template project that can be easily cloned and started with.
+
+For documenntation on "POSIX and DOS Computers" mod API please visit the repository "./docs" directory.
+
+## Discalimers
+
+### License
+
+The code in this repository is licensed under MIT. This means you can
+use it as you like, including relicensing your own addon, without any
+obligation to redistribute your source.
+
+### Can I contribute?
+
+Contributions to this repository are not permitted.

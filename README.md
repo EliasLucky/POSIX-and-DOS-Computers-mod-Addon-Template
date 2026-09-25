@@ -15,7 +15,7 @@ This repository is intended as a template project that can be easily cloned and 
 
 For documenntation on "POSIX and DOS Computers" mod API please visit the repository "./docs" directory.
 
-## Discalimers
+## Disclaimers
 
 ### License
 

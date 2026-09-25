@@ -26,3 +26,9 @@ obligation to redistribute your source.
 ### Can I contribute?
 
 Contributions to this repository are not permitted.
+
+## Branches
+
+Template project per supported Minecraft Forge version.
+
+- `mc1.20.1` for `mc1.20.1/release` POSIX and DOS Computers mod branch

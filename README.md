@@ -15,6 +15,12 @@ This repository is intended as a template project that can be easily cloned and 
 
 For documenntation on "POSIX and DOS Computers" mod API please visit the repository "./docs" directory in the base mod [repo](https://github.com/EliasLucky/POSIX-and-DOS-Computers-mod/blob/mc1.20.1/release/docs/index.md). Select the correct Minecraft version branch that mod is supported on and that you want to make addon for. Select branch both in this repo and in base mod repo.
 
+## How to resolve dependencies
+
+Download the latest mod version of the Minecraft version you've selected. Then copy it to the [./libs](./libs) directory.
+
+Go to [./build.gradle](./build.gradle) and in `dependencies` section change the path `"libs/mc_dos-1.0.0.jar"` so it would point to the mod version file.
+
 ## Disclaimers
 
 ### License

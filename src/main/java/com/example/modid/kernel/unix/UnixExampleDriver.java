@@ -5,45 +5,35 @@ import com.eliaslucky.mc_dos.api.hardware.*;
 import java.util.List;
 
 /**
- * UNIX v7 driver for the example peripheral.
- *
- * <p>Drivers in v7 were compiled into the kernel. The kernel scans the
- * bus at boot and links any driver whose registered name matches a
- * device class. The device node lands at {@code /dev/example}.
- *
- * <p>User access: {@code cat /dev/example} reads, and
- * {@code echo hi > /dev/example} writes.
+ * UNIX v7 driver for the plotter. Registered as {@code "PLOTTER"} in
+ * the "unix" family. Loaded automatically by the v7 kernel at boot;
+ * registers {@code /dev/plotter}.
  */
-public class UnixExampleDriver implements Driver {
-	private Peripheral peripheral;
+public class UnixPlotterDriver implements Driver {
+    private Peripheral peripheral;
 
-	@Override public String name() { return "example.c"; }
+    @Override public String name() { return "plotter.c"; }
 
-	@Override
-	public DriverInitResult init(DriverContext ctx) {
-		List<PeripheralAddress> matches = ctx.bus().scan().stream()
-				.filter(a -> a.deviceClass().equals("example"))
-				.toList();
+    @Override
+    public DriverInitResult init(DriverContext ctx) {
+        List<PeripheralAddress> matches = ctx.bus().scan().stream()
+                .filter(a -> a.deviceClass().equals("plotter"))
+                .toList();
 
-		if (matches.isEmpty()) {
-			ctx.log("example: no device attached");
-			return DriverInitResult.FAILED;
-		}
+        if (matches.isEmpty()) {
+            ctx.log("plotter: no device attached");
+            return DriverInitResult.FAILED;
+        }
 
-		// v7 binds to the first matching device only.
-		this.peripheral = ctx.bus().get(matches.get(0));
-		if (peripheral == null) return DriverInitResult.FAILED;
+        peripheral = ctx.bus().get(matches.get(0));
+        if (peripheral == null) return DriverInitResult.FAILED;
 
-		String devPath = ctx.registerDevice("example",
-				DeviceHandler.of(peripheral));
-		if (devPath == null) {
-			ctx.log("example: could not create device node");
-			return DriverInitResult.FAILED;
-		}
+        String path = ctx.registerDevice("plotter", DeviceHandler.of(peripheral));
+        if (path == null) return DriverInitResult.FAILED;
 
-		ctx.log("example: attached, " + devPath + " registered");
-		return DriverInitResult.OK;
-	}
+        ctx.log("plotter: attached, " + path + " registered");
+        return DriverInitResult.OK;
+    }
 
-	@Override public void shutdown() { peripheral = null; }
+    @Override public void shutdown() { peripheral = null; }
 }

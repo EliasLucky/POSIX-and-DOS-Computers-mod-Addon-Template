@@ -5,52 +5,43 @@ import com.eliaslucky.mc_dos.api.hardware.*;
 import java.util.List;
 
 /**
- * DOS driver for the example peripheral.
- *
- * <p>In real MS-DOS, this would ship as {@code EXAMPLE.SYS} and be
- * loaded by a line in {@code CONFIG.SYS}:
- * <pre>
- * DEVICE=C:\DRIVERS\EXAMPLE.SYS /SLOT=0
- * </pre>
- *
- * <p>The driver scans the bus for a peripheral whose device class is
- * {@code "example"}, wraps it with {@link DeviceHandler#of}, and
- * registers the name {@code EXAMPLE}. Once loaded, typing {@code EXAMPLE}
- * at the DOS prompt dispatches bytes to the peripheral.
+ * DOS driver for the plotter. Registered as {@code "PLOTTER"} in the
+ * "dos" family. Loads when {@code CONFIG.SYS} contains a
+ * {@code DEVICE=...PLOTTER.SYS} line, and registers the device name
+ * {@code PLOT} in the DOS device table.
  */
-public class DosExampleDriver implements Driver {
-	private Peripheral peripheral;
+public class DosPlotterDriver implements Driver {
+    private Peripheral peripheral;
 
-	@Override public String name() { return "EXAMPLE.SYS"; }
+    @Override public String name() { return "PLOTTER.SYS"; }
 
-	@Override
-	public DriverInitResult init(DriverContext ctx) {
-		int slot = Integer.parseInt(ctx.loadParams().getOrDefault("SLOT", "0"));
+    @Override
+    public DriverInitResult init(DriverContext ctx) {
+        int slot = Integer.parseInt(
+                ctx.loadParams().getOrDefault("SLOT", "0"));
 
-		List<PeripheralAddress> matches = ctx.bus().scan().stream()
-				.filter(a -> a.deviceClass().equals("example"))
-				.filter(a -> a.slot() == slot)
-				.toList();
+        List<PeripheralAddress> matches = ctx.bus().scan().stream()
+                .filter(a -> a.deviceClass().equals("plotter"))
+                .filter(a -> a.slot() == slot)
+                .toList();
 
-		if (matches.isEmpty()) {
-			ctx.log("EXAMPLE.SYS: no device at slot " + slot);
-			return DriverInitResult.FAILED;
-		}
+        if (matches.isEmpty()) {
+            ctx.log("PLOTTER.SYS: no plotter at slot " + slot);
+            return DriverInitResult.FAILED;
+        }
 
-		this.peripheral = ctx.bus().get(matches.get(0));
-		if (peripheral == null) return DriverInitResult.FAILED;
+        peripheral = ctx.bus().get(matches.get(0));
+        if (peripheral == null) return DriverInitResult.FAILED;
 
-		// Device name: DOS allows 1–8 chars, no extension.
-		String devName = ctx.registerDevice("EXAMPLE",
-				DeviceHandler.of(peripheral));
-		if (devName == null) {
-			ctx.log("EXAMPLE.SYS: name EXAMPLE already taken");
-			return DriverInitResult.FAILED;
-		}
+        String name = ctx.registerDevice("PLOT", DeviceHandler.of(peripheral));
+        if (name == null) {
+            ctx.log("PLOTTER.SYS: name PLOT already taken");
+            return DriverInitResult.FAILED;
+        }
 
-		ctx.log("EXAMPLE.SYS installed at slot " + slot);
-		return DriverInitResult.OK;
-	}
+        ctx.log("PLOTTER.SYS installed at slot " + slot);
+        return DriverInitResult.OK;
+    }
 
-	@Override public void shutdown() { peripheral = null; }
+    @Override public void shutdown() { peripheral = null; }
 }

@@ -1,6 +1,6 @@
-package com.example.modid;
+package com.example.computersaddon;
 
-import com.example.modid.blocks.ExamplePeripheralBlock;
+import com.example.computersaddon.blocks.PlotterBlock;
 
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
@@ -11,28 +11,21 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-/**
- * Block registry. Add new block entries here and register the class
- * with {@link #register(IEventBus)} from the mod constructor.
- */
 public final class AllBlocks {
-	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, ComputersAddon.MODID);
+    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, ComputersAddon.MODID);
 
-	/**
-	 * Example peripheral. Adjacent to a computer, this block becomes
-	 * available as a device the OS can talk to (via a driver).
-	 */
-	public static final RegistryObject<Block> EXAMPLE_PERIPHERAL =
-			BLOCKS.register("example_peripheral",
-					() -> new ExamplePeripheralBlock(BlockBehaviour.Properties.of()
-							.mapColor(MapColor.METAL)
-							.strength(2.0F)
-							.sound(SoundType.METAL)
-							.requiresCorrectToolForDrops()));
+    /**
+     * A pen plotter. When placed adjacent to a computer, it appears on
+     * the peripheral bus as a device of class {@code "plotter"}.
+     */
+    public static final RegistryObject<Block> PLOTTER = BLOCKS.register(
+            "plotter",
+            () -> new PlotterBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.METAL)
+                    .strength(2.0F)
+                    .sound(SoundType.METAL)));
 
-	private AllBlocks() {}
+    private AllBlocks() {}
 
-	public static void register(IEventBus modBus) {
-		BLOCKS.register(modBus);
-	}
+    public static void register(IEventBus modBus) { BLOCKS.register(modBus); }
 }

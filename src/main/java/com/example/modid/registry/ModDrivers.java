@@ -1,14 +1,27 @@
-package com.eliaslucky.mc_dos.registry;
+package com.example.computersaddon.registry;
 
 import com.eliaslucky.mc_dos.api.hardware.DriverRegistry;
-import com.eliaslucky.mc_dos.blocks.computer.kernel.dos.drivers.DosMccmdDriver;
+import com.example.modid.kernel.dos.DosPlotterDriver;
+import com.example.modid.kernel.linux.LinuxPlotterDriver;
+import com.example.modid.kernel.unix.UnixPlotterDriver;
 
+/**
+ * Registers the addon's device drivers.
+ *
+ * <p>One driver per OS family. The second argument must match:
+ * <ul>
+ *   <li>DOS: the {@code .SYS} basename that a {@code CONFIG.SYS}
+ *       {@code DEVICE=} line names</li>
+ *   <li>UNIX: the {@code .c} source basename the v7 kernel expected</li>
+ *   <li>Linux: the {@code .ko} module basename</li>
+ * </ul>
+ */
 public final class ModDrivers {
-	private ModDrivers() {}
+    private ModDrivers() {}
 
-	public static void register() {
-		DriverRegistry.register("dos",	 "MCCMD", DosMccmdDriver::new);
-		//DriverRegistry.register("posix", "MCCMD", LinuxMccmdDriver::new);
-		//DriverRegistry.register("unix",  "MCCMD", UnixV7MccmdDriver::new);
-	}
+    public static void register() {
+        DriverRegistry.register("dos",   "PLOTTER", DosPlotterDriver::new);
+        DriverRegistry.register("unix",  "PLOTTER", UnixPlotterDriver::new);
+        DriverRegistry.register("linux", "PLOTTER", LinuxPlotterDriver::new);
+    }
 }

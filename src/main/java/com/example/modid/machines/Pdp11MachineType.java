@@ -20,7 +20,7 @@ import java.util.function.Supplier;
  * and file-name policy all come from there.
  */
 public class Pdp11MachineType implements MachineType {
-    @Override public String id()        { return "computersaddon:pdp11_70"; }
+    @Override public String id()        { return "modid:pdp11_70"; }
     @Override public String modelName() { return "DEC PDP-11/70"; }
     @Override public String cpuName()   { return "DEC PDP-11 @ 15 MHz"; }
     @Override public String osVersion() { return "UNIX v7 (Bell Labs)"; }
